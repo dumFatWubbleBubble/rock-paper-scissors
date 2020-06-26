@@ -32,7 +32,7 @@ function getUserInput() {
    
    
 
-
+    /* call validation */
     validateUserInput();
 
     
@@ -117,6 +117,7 @@ if (window.userMove === "rock" && window.aiMove === "paper") {
     window.userPoints++;
     console.log("The AI chose paper and you chose scissors. You get 1 point");
 } else {
+    console.log(`You and the AI both picked ${window.userMove}`);
     window.userPoints = window.userPoints;
     window.aiPoints = window.aiPoints;
 }
