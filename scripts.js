@@ -8,6 +8,31 @@ window.aiPoints;
 userPoints = 0;
 aiPoints = 0;
 
+const alert = document.querySelector("#alert");
+
+const BTN_ROCK = document.getElementById('btn-rock');
+
+BTN_ROCK.addEventListener('click', function() {playRound("rock")});
+
+const BTN_PAPER = document.getElementById('btn-paper');
+
+BTN_PAPER.addEventListener('click', function() {playRound("paper")});
+
+const BTN_SCISSORS = document.getElementById('btn-scissors');
+
+BTN_SCISSORS.addEventListener('click', function() {playRound("scissors")});
+
+
+const results = document.querySelector('.results');
+
+
+const displayUserPoints = document.querySelector("#user-points");
+const displayAiPoints = document.querySelector("#ai-points");
+
+
+displayUserPoints.textContent = `User Points: ${userPoints}`;
+displayAiPoints.textContent = `AI Points: ${aiPoints}`;
+
 
 /* computer selection */
 function computerPlay() {
@@ -25,19 +50,6 @@ function computerPlay() {
 
 
 
-function getUserInput() {
-
-    window.input = prompt("What is your move:").toLowerCase();
-    
-   
-   
-
-    /* call validation */
-    validateUserInput();
-
-    
-    
-}
 
 
 
@@ -49,30 +61,7 @@ function getUserInput() {
 
 
 /* validates the user input */
-function validateUserInput(input) {
 
-    
-
-    switch(window.input) {
-        case "rock":
-            return window.userMove = "rock";
-            break;
-        
-        case "paper":
-            return window.userMove = "paper";
-            break;
-
-        case "scissors":
-            return window.userMove = "scissors"
-            break;
-
-        default:
-            /* if anser is not valid */
-            alert("Your answer was not valid please re-enter your move...");
-            getUserInput();
-            
-    }
-}
 
 
 
@@ -86,39 +75,51 @@ function validateUserInput(input) {
 
 function playRound(playerSelection, computerSelection,) {
 computerSelection = computerPlay();
-playerSelection = getUserInput();
+checkRound();
+
 /* ai gets point if it selects PAPER and user selects ROCK */
-if (window.userMove === "rock" && window.aiMove === "paper") {
+if (playerSelection === "rock" && window.aiMove === "paper") {
 
-    console.log("The AI chose paper and you chose rock. AI gets 1 point");
+    alert.textContent = "The AI chose paper and you chose rock. AI gets 1 point";
 
     window.aiPoints++;
+    displayAiPoints.textContent = `AI Points: ${aiPoints}`;
     
-} else if (window.userMove === "scissors" && window.aiMove === "rock") {   /* ai gets point if it selects ROCK and user selects SCISSORS */
+} else if (playerSelection === "scissors" && window.aiMove === "rock") {   /* ai gets point if it selects ROCK and user selects SCISSORS */
 
     window.aiPoints++;
-    console.log("The AI chose rock and you chose scissors. AI gets 1 point");
+    alert.textContent = "The AI chose rock and you chose scissors. AI gets 1 point";
+    displayAiPoints.textContent = `AI Points: ${aiPoints}`;
 
-} else if (window.userMove === "paper" && window.aiMove === "scissors") { /* ai gets point if it selects SCISSORS and user selects PAPER */
+} else if (playerSelection === "paper" && window.aiMove === "scissors") { /* ai gets point if it selects SCISSORS and user selects PAPER */
 
     window.aiPoints++;
-    console.log("The AI chose scissors and you chose paper. AI gets 1 point");
-} else if (window.userMove === "rock" && window.aiMove === "scissors") { /* user gets point if it selects ROCK and ai selects SCISSORS */
+    alert.textContent ="The AI chose scissors and you chose paper. AI gets 1 point";
+    displayAiPoints.textContent = `AI Points: ${aiPoints}`;
+} else if (playerSelection === "rock" && window.aiMove === "scissors") { /* user gets point if it selects ROCK and ai selects SCISSORS */
 
     window.userPoints++;
-    console.log("The AI chose scissors and you chose rock. You get 1 point");
-} else if (window.userMove === "paper" && window.aiMove === "rock") { /* user gets point if it selects PAPER and ai selects ROCK */
+    alert.textContent = "The AI chose scissors and you chose rock. You get 1 point";
+    displayUserPoints.textContent = `User Points: ${userPoints}`;
+} else if (playerSelection === "paper" && window.aiMove === "rock") { /* user gets point if it selects PAPER and ai selects ROCK */
 
     window.userPoints++;
-    console.log("The AI chose rock and you chose paper. You get 1 point");
+    alert.textContent = "The AI chose rock and you chose paper. You get 1 point";
+    displayUserPoints.textContent = `User Points: ${userPoints}`;
 
-} else if (window.userMove === "scissors" && window.aiMove === "paper") { /* user gets point if it selects ROCK and ai selects SCISSORS */
+} else if (playerSelection === "scissors" && window.aiMove === "paper") { /* user gets point if it selects ROCK and ai selects SCISSORS */
 
     window.userPoints++;
-    console.log("The AI chose paper and you chose scissors. You get 1 point");
-} else {
-    console.log(`You and the AI both picked ${window.userMove}`);
-    playRound();
+    alert.textContent = "The AI chose paper and you chose scissors. You get 1 point";
+    displayUserPoints.textContent = `User Points: ${userPoints}`;
+
+    
+} 
+
+
+else {
+    alert.textContent = `You and the AI both picked ${playerSelection}`;
+    
     window.userPoints = window.userPoints;
     window.aiPoints = window.aiPoints;
 }
@@ -126,25 +127,53 @@ if (window.userMove === "rock" && window.aiMove === "paper") {
 
 
 }
+ function checkRound() {
+if (userPoints > 4) {
+    gameEnd("userWin");
+    
+} else if (aiPoints > 4){
+    gameEnd('aiWin');
+} else {
+    return true;
+}
+
+ }
 
 
-function game(){
+function gameEnd(outcome){
+
+
+    if (outcome === "aiWin") {
+        alert.textContent = `AI Wins!`;
+
+    }
+
+    if (outcome === "userWin") {
+        alert.textContent = `You Win!`;
+    }
+
+
+    alert('The game has ended');
+
+    window.location.replace("http://127.0.0.1:5500/index.html");
 
     /* play five rounds */
 
+   /*  playRound();
     playRound();
     playRound();
     playRound();
-    playRound();
-    playRound();
+    playRound(); */
 
 
-    decideGameWinner();
+    /* decideGameWinner(); */
     
 
    
 
 }
+
+
 
 
 function decideGameWinner() {
@@ -163,7 +192,7 @@ function decideGameWinner() {
 }
 
 
-game();
+/* game(); */
 
 
 
